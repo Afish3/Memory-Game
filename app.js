@@ -122,7 +122,7 @@ if (clickCount % 2 === 1) {
 
   event.target.classList.add('flipped');
 
-  setTimeout(function(){noClicking=false;}, 1000);
+  setTimeout(function(){noClicking=false;}, 800);
 
   // if the colors are different, flip them both smoothly and then flip them back
 
@@ -153,7 +153,7 @@ if (clickCount % 2 === 1) {
     firstFlip.classList.remove('flipped');
     event.target.classList.remove('flipped');
 
-    setTimeout(function(){noClicking=false;}, 1500);
+    setTimeout(function(){noClicking=false;}, 1300);
 }
 }
 
