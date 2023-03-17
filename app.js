@@ -108,6 +108,9 @@ if (clickCount % 2 === 1) {
   // if the colors are the same flip them both smoothly and keep them flipped
 
 } else if (firstFlip.classList.contains(event.target.className)) {
+
+  noClicking = true;
+
     for (let shuffledColor of shuffledColors) {
         if (event.target.classList.contains(shuffledColor)) {
     setTimeout(function(){event.target.style.background = shuffledColor;}, 100);
@@ -119,9 +122,14 @@ if (clickCount % 2 === 1) {
 
   event.target.classList.add('flipped');
 
+  setTimeout(function(){noClicking=false;}, 1000);
+
   // if the colors are different, flip them both smoothly and then flip them back
 
 } else if (!firstFlip.classList.contains(event.target.className)) {
+
+  noClicking = true;
+
     for (let shuffledColor of shuffledColors) {
         if (event.target.classList.contains(shuffledColor)) {
     setTimeout(function(){event.target.style.background = shuffledColor;}, 100);
@@ -144,6 +152,8 @@ if (clickCount % 2 === 1) {
 
     firstFlip.classList.remove('flipped');
     event.target.classList.remove('flipped');
+
+    setTimeout(function(){noClicking=false;}, 1500);
 }
 }
 
