@@ -74,6 +74,7 @@ function createDivsForColors(colorArray) {
 function handleCardClick(event) {
 
     if (event.target.classList.contains("flipped")) return;
+    if (noClicking) return;
 
     //increase num of clicks by 1 every click
     clickCount++;
