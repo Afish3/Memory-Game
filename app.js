@@ -61,6 +61,8 @@ function createDivsForColors(colorArray) {
     // give it a class attribute for the value we are looping over
     newDiv.classList.add(color);
 
+    newDiv.style.background = "white";
+
     let firstFlip = newDiv.onclick;
 
     // call a function handleCardClick when a div is clicked
