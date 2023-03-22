@@ -31,12 +31,10 @@ const COLORS = [
 function shuffle(array) {
   let counter = array.length;
 
-  // While there are elements in the array
   while (counter > 0) {
     // Pick a random index
     let index = Math.floor(Math.random() * counter);
 
-    // Decrease counter by 1
     counter--;
 
     // And swap the last element with it
@@ -63,99 +61,73 @@ function createDivsForColors(colorArray) {
 
     let firstFlip = newDiv.onclick;
 
-    // call a function handleCardClick when a div is clicked
     newDiv.addEventListener("click", handleCardClick);
 
-    // append the div to the element with an id of game
     gameContainer.append(newDiv);
   }
 }
 
 function handleCardClick(event) {
 
-    if (event.target.classList.contains("flipped")) return;
-    if (noClicking) return;
+  if (event.target.classList.contains("flipped")) return;
+  if (noClicking) return;
 
-    //increase num of clicks by 1 every click
-    clickCount++;
+  clickCount++;
 
-// odd numbered clicks turn a card
-
-if (clickCount % 2 === 1) {
-
-  //change selected card to class color
-  for (let shuffledColor of shuffledColors) {
-    if (event.target.classList.contains(shuffledColor)) {
-        setTimeout(function(){event.target.style.background = shuffledColor;}, 100);
+  function flipCard(colorArr, event) {
+    for (let color of colorArr) {
+      if (event.classList.contains(color)) {
+          setTimeout(function(){event.style.background = color;}, 100);
+      }
     }
+    //time the turn overs so they are smooth
+    event.classList.add('turn');
+    setTimeout(function(){event.classList.add('back');}, 100);
+    setTimeout(function(){event.classList.remove('turn');}, 800);
   }
-  //time the turn overs so they are smooth
-  event.target.classList.add('turn');
-  setTimeout(function(){event.target.classList.add('back');}, 100);
-  setTimeout(function(){event.target.classList.remove('turn');}, 800);
 
-  //reset after 1 extra second
-//   setTimeout(function(){event.target.classList.remove('back');}, 1970);
-//     setTimeout(function(){event.target.classList.add('turn');}, 2000);
-//     setTimeout(function(){event.target.style.background = 'white';}, 2200);
-//     setTimeout(function(){event.target.classList.remove('turn');}, 2300);
+  // odd numbered clicks turn a card
+  if (clickCount % 2 === 1) {
 
-  //store odd numbered events to compare with evens
-  firstFlip = event.target;
+    flipCard(shuffledColors, event.target);
 
-  firstFlip.classList.add('flipped');
-  
-  // if the colors are the same flip them both smoothly and keep them flipped
+    //store odd numbered events to compare with evens
+    firstFlip = event.target;
 
-} else if (firstFlip.classList.contains(event.target.className)) {
+    firstFlip.classList.add('flipped');
+    
+  } else if (firstFlip.classList.contains(event.target.className)) {
 
-  noClicking = true;
+      noClicking = true;
 
-    for (let shuffledColor of shuffledColors) {
-        if (event.target.classList.contains(shuffledColor)) {
-    setTimeout(function(){event.target.style.background = shuffledColor;}, 100);
-        }
-    }
-    event.target.classList.add('turn');
-  setTimeout(function(){event.target.classList.add('back');}, 100);
-  setTimeout(function(){event.target.classList.remove('turn');}, 800);
+      flipCard(shuffledColors, event.target);
 
-  event.target.classList.add('flipped');
+      event.target.classList.add('flipped');
 
-  setTimeout(function(){noClicking=false;}, 800);
+      setTimeout(function(){noClicking=false;}, 800);
 
-  // if the colors are different, flip them both smoothly and then flip them back
+  } else if (!firstFlip.classList.contains(event.target.className)) {
 
-} else if (!firstFlip.classList.contains(event.target.className)) {
+      noClicking = true;
 
-  noClicking = true;
+      flipCard(shuffledColors, event.target);
 
-    for (let shuffledColor of shuffledColors) {
-        if (event.target.classList.contains(shuffledColor)) {
-    setTimeout(function(){event.target.style.background = shuffledColor;}, 100);
-        }
-    }
-    // flip for this event
-    event.target.classList.add('turn');
-    setTimeout(function(){event.target.classList.add('back');}, 100);
-    setTimeout(function(){event.target.classList.remove('turn');}, 800);
-    setTimeout(function(){event.target.classList.remove('back');}, 970);
-    setTimeout(function(){event.target.classList.add('turn');}, 1000);
-    setTimeout(function(){event.target.style.background = 'white';}, 1200);
-    setTimeout(function(){event.target.classList.remove('turn');}, 1300);
+      setTimeout(function(){event.target.classList.remove('back');}, 970);
+      setTimeout(function(){event.target.classList.add('turn');}, 1000);
+      setTimeout(function(){event.target.style.background = 'white';}, 1200);
+      setTimeout(function(){event.target.classList.remove('turn');}, 1300);
 
-    //flip for the odd numbered previous event
-    setTimeout(function(){firstFlip.classList.remove('back');}, 970);
-    setTimeout(function(){firstFlip.classList.add('turn');}, 1000);
-    setTimeout(function(){firstFlip.style.background = 'white';}, 1200);
-    setTimeout(function(){firstFlip.classList.remove('turn');}, 1300);
+      //flip for the odd numbered previous event
+      setTimeout(function(){firstFlip.classList.remove('back');}, 970);
+      setTimeout(function(){firstFlip.classList.add('turn');}, 1000);
+      setTimeout(function(){firstFlip.style.background = 'white';}, 1200);
+      setTimeout(function(){firstFlip.classList.remove('turn');}, 1300);
 
-    firstFlip.classList.remove('flipped');
-    event.target.classList.remove('flipped');
+      firstFlip.classList.remove('flipped');
+      event.target.classList.remove('flipped');
 
-    setTimeout(function(){noClicking=false;}, 1300);
-}
-}
+      setTimeout(function(){noClicking=false;}, 1300);
+  }
+  }
 
-// when the DOM loads
-createDivsForColors(shuffledColors);
+  createDivsForColors(shuffledColors);
